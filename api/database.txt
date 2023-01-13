@@ -1,4 +1,0 @@
-user melfandary
-pass dsBrm0lj8CVAvZai
-
-connection string mongodb+srv://melfandary:<password>@reacblogapp.t5qgzhs.mongodb.net/?retryWrites=true&w=majority
