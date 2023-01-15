@@ -4,11 +4,6 @@ const schema = mongoose.Schema;
 
 const blogSchema = new schema(
   {
-    id: {
-      type: Number,
-      required: true,
-      unique: true,
-    },
     title: {
       type: String,
       required: true,
@@ -24,7 +19,7 @@ const blogSchema = new schema(
   },
   { timestamps: true }
 );
+blogSchema.path("_id");
+const Blog = mongoose.model("Blog", blogSchema);
 
-const Blog = mongoose.model('Blog',blogSchema);
- 
 module.exports = Blog;
