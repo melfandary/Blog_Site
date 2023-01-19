@@ -5,7 +5,7 @@ const schema = mongoose.Schema;
 const blogSchema = new schema(
   {
     title: {
-      type: String,
+      type: String, //add categorey and creator values
       required: true,
     },
     desc: {

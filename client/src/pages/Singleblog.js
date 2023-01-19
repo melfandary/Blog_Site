@@ -17,7 +17,7 @@ const Singleblog = () => {
   useEffect(() => {
     const getBlog = () => {
       axios
-        .get(`http://localhost:5000/blog/${id}`)
+        .get(`/blog/${id}`)
         .then((res) => {
           console.log(res.data);
           setBlog(res.data);

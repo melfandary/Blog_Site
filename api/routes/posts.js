@@ -1,15 +1,12 @@
 const express = require("express");
-
 const router = express.Router();
-router.get("/blog", (req, res) => {
-    const str =[{
-        "title":"somename",
-        'desc':"description",
-        'img':'random url'
-    }];
-    res.end(JSON.stringify(str));
-});
-router.post('/blog',(req,res)=>{
-    res.end('NA');
-});
-module.exports =  router;
+const cors = require("cors");
+
+const controller = require("../controllers/post");
+
+
+//router.get("/", cors(), controller.getAllBlogs);
+router.get("/:id", controller.getSpecficBlog);
+router.get("/addBlog", controller.addBlog);
+
+module.exports = router;
