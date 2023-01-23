@@ -16,6 +16,9 @@ const blogSchema = new schema(
       type: String,
       required: true,
     },
+    category:{
+      type:String,
+    },
   },
   { timestamps: true }
 );

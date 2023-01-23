@@ -39,4 +39,15 @@ const addBlog = (req, res) => {
     });
 };
 
-module.exports = { getAllBlogs, getSpecficBlog, addBlog };
+
+const updateBlog = (req, res) => {
+
+};
+
+
+const deleteBlog = (req, res) => {
+
+};
+
+
+module.exports = { getAllBlogs, getSpecficBlog, addBlog ,updateBlog, deleteBlog };

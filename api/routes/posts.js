@@ -1,12 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const cors = require("cors");
 
 const controller = require("../controllers/post");
 
-
-//router.get("/", cors(), controller.getAllBlogs);
+//router.get("/", controller.getAllBlogs);
 router.get("/:id", controller.getSpecficBlog);
-router.get("/addBlog", controller.addBlog);
+router.post("/addBlog", controller.addBlog);
+router.update("/:id", controller.updateBlog);
+router.delete("/:id",controller.deleteBlog);
 
 module.exports = router;

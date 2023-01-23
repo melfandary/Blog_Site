@@ -1,8 +1,7 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { useState } from "react";
-import axios from "axios";
+import { React,useState }  from "react";
+import { Link, useNavigate } from "react-router-dom";
 
+import axios from "axios";
 
 const Register = () => {
   const [inputs, setInputs] = useState({
@@ -11,21 +10,22 @@ const Register = () => {
     email: "",
   });
 
+  const [err, setError] = useState(null);
+
+  const navigate = useNavigate();
   const handleChange = (event) => {
     setInputs((prev) => ({ ...prev, [event.target.name]: event.target.value }));
   };
 
-  const handleSubmit = async  (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const res = await axios.post("/auth/register", inputs);
-      console.log("from try" +res);
+      await axios.post("/auth/register", inputs);
+        navigate('/login');
     } catch (err) {
-      console.log(" from catch"+err);
+      setError(err.response.data);
     }
-
   };
-
 
   console.log(inputs);
 
@@ -55,7 +55,7 @@ const Register = () => {
           onChange={handleChange}
         />
         <button onClick={handleSubmit}>Register</button>
-        <p>error</p>
+        {err && <p>{err}</p> }
         <span>
           Already registerd?{" "}
           <Link to="/login" className="link">
