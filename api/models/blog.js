@@ -16,8 +16,11 @@ const blogSchema = new schema(
       type: String,
       required: true,
     },
-    category:{
-      type:String,
+    category: {
+      type: String,
+    },
+    creator:{
+      type: String,
     },
   },
   { timestamps: true }
