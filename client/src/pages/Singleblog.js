@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect,useContext } from "react";
 
 import editIcon from "../images/edit.png";
 import deleteIcon from "../images/delete.png";
@@ -7,11 +7,16 @@ import { Link, useParams } from "react-router-dom";
 import Menu from "./../components/Menu";
 
 import axios from "axios";
+import moment from "moment";
+import { AuthContext } from './../Context/authContext';
 
 const Singleblog = () => {
   const [blog, setBlog] = useState("");
 
   let { id } = useParams();
+
+
+  const {currentUser} = useContext(AuthContext);
 
   console.log(`ID:`, id);
   useEffect(() => {
@@ -43,19 +48,19 @@ const Singleblog = () => {
               alt="user photo"
             />
             <div className="userInfo">
-              <span> Username</span>
-              <p>posted x days ago.</p>
+              <span> {blog.creator}</span>
+              <p>Posted {moment(blog.createdAt.split("T")[0]).fromNow()}.</p>
             </div>
 
-            <div className="modify">
+          { currentUser.username === blog.creator && <div className="modify">
               <Link to={`/write?edit=2`}>
                 <img src={editIcon} alt="edit icon" />
               </Link>
               <img src={deleteIcon} alt="delete icon" />
-            </div>
+            </div>}
           </div>
           <h1>{blog.title}</h1>
-          <p>{blog.desc}</p>
+         {blog.desc}
         </div>
       ) : null}
       <Menu />
