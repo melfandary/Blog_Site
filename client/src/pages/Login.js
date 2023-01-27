@@ -1,4 +1,4 @@
-import { React, useContext, useState } from "react";
+import { React, useContext, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../Context/authContext";
 
@@ -13,18 +13,19 @@ const Login = () => {
   const [err, setError] = useState(null);
 
   const navigate = useNavigate();
-
   const { login } = useContext(AuthContext);
-  
 
   const handleChange = (event) => {
     setInputs((prev) => ({ ...prev, [event.target.name]: event.target.value }));
+    setError("");
   };
+
+
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      //await axios.post("/auth/login", inputs);
       await login(inputs);
       navigate("/");
     } catch (err) {
@@ -43,19 +44,19 @@ const Login = () => {
           type="text"
           placeholder=" enter username"
           name="username"
-          onClick={handleChange}
+          onChange={handleChange}
         />
         <input
           required
           type="password"
           placeholder="enter password"
           name="password"
-          onClick={handleChange}
+          onChange={handleChange}
         />
         <button onClick={handleSubmit}>Login</button>
         {err && <p>{err} </p>}
         <span>
-          New here?{" "}
+          New here?
           <Link to="/register" className="link">
             Register
           </Link>

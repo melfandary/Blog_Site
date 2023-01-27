@@ -16,6 +16,7 @@ app.use(cookieParser());
 
 //db models
 const Blog = require("./models/blog");
+
 //routes
 app.use("/blog", blogRoutes);
 app.use("/user", userRoutes);
@@ -33,10 +34,43 @@ app.listen(port, () => {
   app.get("/", (req, res) => {
     Blog.find()
       .then((result) => {
-        res.send(result);
+        res.json(result);
       })
       .catch((err) => {
         console.log(err);
       });
   });
+
+  app.get("/", (req, res) => {
+    console.log(JSON.stringify(req.body.cat));
+    Blog.find({category:req.query.cat})
+        .then((result) => {
+          res.json(result);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+  });
+
+
+    // app.get("/add", (req, res) => {
+    //   const blog = new Blog({
+       
+    //     title: "Design blog",
+    //     desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit Lorem ipsum dolor sit Lorem ipsum dolor sit amet consectetur adipisicing elit Lorem ipsum dolor sit",
+    //     img: "https://images.pexels.com/photos/574073/pexels-photo-574073.jpeg?auto=compress&cs=tinysrgb&w=600",
+    //     category: "design",
+    //     creator:"1234",
+    //   });
+    
+    //   blog
+    //     .save()
+    //     .then((result) => {
+    //       res.json(result);
+    //     })
+    //     .catch((err) => {
+    //       console.log(err);
+    //     });
+    // });
+
 });

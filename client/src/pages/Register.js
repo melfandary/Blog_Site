@@ -15,6 +15,7 @@ const Register = () => {
   const navigate = useNavigate();
   const handleChange = (event) => {
     setInputs((prev) => ({ ...prev, [event.target.name]: event.target.value }));
+    setError("");
   };
 
   const handleSubmit = async (event) => {
@@ -57,7 +58,7 @@ const Register = () => {
         <button onClick={handleSubmit}>Register</button>
         {err && <p>{err}</p> }
         <span>
-          Already registerd?{" "}
+          Already registerd?  
           <Link to="/login" className="link">
             Login
           </Link>
