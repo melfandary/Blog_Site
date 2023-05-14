@@ -13,8 +13,10 @@ const blogSchema = new schema(
       required: true,
     },
     img: {
-      type: String,
-      required: true,
+      // type: String,
+      // required: true,
+      data: Buffer,
+      contentType: String
     },
     category: {
       type: String,

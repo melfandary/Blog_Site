@@ -46,9 +46,9 @@ const login = (req, res) => {
 
       const token = jwt.sign({ id: user._id }, "jwtKey");
       res
-        .cookie("access_token", token, { httpOnly: true })
+        .cookie("access_token", token, { httpOnly: true, })
         .status(200)
-        .json(user);
+        .send(user);
      
     }
   });
@@ -60,6 +60,7 @@ const logout = (req, res) => {
     .clearCookie("access_token", {
      //  exp: Math.floor(Date.now() / 1000) + (60 * 60),
       sameSite: "none",
+      
       //secure: true,
     })
     .status(200)

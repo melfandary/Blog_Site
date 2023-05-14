@@ -1,27 +1,32 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import axios from "axios";
 
 const Home = () => {
-
   const [blogs, setBlogs] = useState("");
 
+  const category = useLocation().search;
+
   useEffect(() => {
-    const getBlogs = () => {
-      axios
-        .get("http://localhost:5000/")
+    const getBlogs = async () => {
+      try {
+        await axios.get(`http://localhost:5000/${category}`)
         .then((res) => {
-          console.log(res.data);
           setBlogs(res.data);
-        })
-        .catch((err) => {
-          console.log(err);
         });
+      } catch (err) {
+        console.log(err);
+      }
     };
     getBlogs();
-  }, []);
+  }, [category]);
+
+  const getText = (html) => {
+    const doc = new DOMParser().parseFromString(html, "text/html");
+    return doc.body.textContent;
+  };
 
   return (
     <div className="home">
@@ -32,10 +37,11 @@ const Home = () => {
               <div className="img">
                 <img src={blog.img} alt="" />
               </div>
+              {/* `../upload/${blog.img}` */}
               <div className="content">
                 <h1>{blog.title}</h1>
-                <p> {blog.desc}</p>
-              
+                <p> {getText(blog.desc)}</p>
+
                 <Link className="link" to={`/blog/${blog._id}`}>
                   <button>Read more</button>
                 </Link>

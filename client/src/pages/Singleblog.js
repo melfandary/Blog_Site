@@ -1,22 +1,22 @@
 import React from "react";
-import { useState, useEffect,useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 
 import editIcon from "../images/edit.png";
 import deleteIcon from "../images/delete.png";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import Menu from "./../components/Menu";
 
 import axios from "axios";
 import moment from "moment";
-import { AuthContext } from './../Context/authContext';
+import { AuthContext } from "./../Context/authContext";
 
 const Singleblog = () => {
   const [blog, setBlog] = useState("");
 
   let { id } = useParams();
 
-
-  const {currentUser} = useContext(AuthContext);
+  const { currentUser } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   console.log(`ID:`, id);
   useEffect(() => {
@@ -34,14 +34,23 @@ const Singleblog = () => {
     getBlog();
   }, []);
 
+  const deleteBlog = () => {
+    axios
+      .delete(`/blog/${id}`)
+      .then((res) => {
+        console.log(res);
+        navigate('/');
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <div className="singleblog">
       {blog ? (
         <div className="content">
-          <img
-            src={blog.img}
-            alt="blog image"
-          />
+          <img src={blog.img} alt="blog image" />
           <div className="user">
             <img
               src="https://images.pexels.com/photos/5474032/pexels-photo-5474032.jpeg?auto=compress&cs=tinysrgb&w=1600"
@@ -52,15 +61,17 @@ const Singleblog = () => {
               <p>Posted {moment(blog.createdAt.split("T")[0]).fromNow()}.</p>
             </div>
 
-          { currentUser.username === blog.creator && <div className="modify">
-              <Link to={`/write?edit=2`}>
-                <img src={editIcon} alt="edit icon" />
-              </Link>
-              <img src={deleteIcon} alt="delete icon" />
-            </div>}
+            {currentUser.username === blog.creator && (
+              <div className="modify">
+                <Link to={`/write?edit=2`} state={blog}>
+                  <img src={editIcon} alt="edit icon" />
+                </Link>
+                <img src={deleteIcon} alt="delete icon" onClick={deleteBlog} />
+              </div>
+            )}
           </div>
           <h1>{blog.title}</h1>
-         {blog.desc}
+          {blog.desc}
         </div>
       ) : null}
       <Menu />
