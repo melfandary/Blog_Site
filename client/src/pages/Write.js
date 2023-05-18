@@ -92,7 +92,7 @@ const Write = () => {
           ></input>
 
           <div className="buttons">
-            <button onClick={handleSubmit}>Publish</button>
+            <button onClick={handleSubmit}>Publish Blog</button>
           </div>
         </div>
 

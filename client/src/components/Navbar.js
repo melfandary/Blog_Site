@@ -11,9 +11,15 @@ const Navbar = () => {
     <div className="navbar">
       <div className="container">
         <div className="logo">
-          <img src={logo} alt="logo" />
+          <Link to="/">
+            <img src={logo} alt="logo" />
+          </Link>
         </div>
         <div className="links">
+          <Link className="link" to="/">
+            <h5>All</h5>
+          </Link>
+
           <Link className="link" to="/?cat=food">
             <h5>Food</h5>
           </Link>

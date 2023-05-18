@@ -19,26 +19,24 @@ app.use(cookieParser());
 const Blog = require("./models/blog");
 
 //routes
-app.use("/", blogRoutes);
+app.use("/blog", blogRoutes);
 app.use("/user", userRoutes);
 app.use("/auth", authRoutes);
 
-
-
 const storage = multer.diskStorage({
-  destination:(req,res,callback)=>{
-    callback(null,'../client/public/upload')
-  },  
-  filename: (req,res,callback)=>{
-    callback(null,Date.now()+res.originalname)
-  }
-})
+  destination: (req, res, callback) => {
+    callback(null, "../client/public/upload");
+  },
+  filename: (req, res, callback) => {
+    callback(null, Date.now() + res.originalname);
+  },
+});
 
-const upload = multer({storage});
+const upload = multer({ storage });
 
-app.post("/upload", upload.single('file'), (req, res) => {
+app.post("/upload", upload.single("file"), (req, res) => {
   const file = req.file;
-  return res.status(200)//.json(file.filename);
+  return res.status(200); //.json(file.filename);
 });
 
 const port = process.env.PORT || 5000;
@@ -48,48 +46,24 @@ app.listen(port, () => {
 
   db.loadDb();
 
-  // retreives all blogs.
-  // app.get("/", (req, res) => {
-  //   Blog.find()
-  //     .then((result) => {
-  //       res.json(result);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // });
-
-
-
-  // app.get("/", (req, res) => {
-  //   console.log(JSON.stringify(req.body.cat));
-  //   Blog.find({ category: req.query.cat })
-  //     .then((result) => {
-  //       res.json(result);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // });
-
-  // app.post("/add", (req, res) => {
-  //   console.log(req.body.img);
-  //   const blog = new Blog({
-
-  //     title: req.body.title,
-  //     desc: req.body.desc,
-  //     img: req.body.img,
-  //     category: req.body.cat,
-  //     creator:"1234",
-  //   });
-
-  //   blog
-  //     .save()
-  //     .then((result) => {
-  //       res.json(result);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // });
+  // retreives all blogs to display in the homepage.
+  app.get("/", async (req, res) => {
+    if (req.query.cat) {
+      await Blog.find({ category: req.query.cat })
+        .then((result) => {
+          res.json(result);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      await Blog.find()
+        .then((result) => {
+          res.json(result);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  });
 });

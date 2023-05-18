@@ -1,27 +1,26 @@
 const Blog = require("../models/blog");
 
-const getAllBlogs = async (req, res) => {
-  // var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
- 
-  if (req.query.cat) { 
-    await Blog.find({ category: req.query.cat })
-      .then((result) => {
-        res.json(result);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  } else {
-    await Blog.find()
-      .then((result) => {
-        res.json(result);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-};
+// const getAllBlogs = async (req, res) => {
+//   // var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
 
+//   if (req.query.cat) {
+//     await Blog.find({ category: req.query.cat })
+//       .then((result) => {
+//         res.json(result);
+//       })
+//       .catch((err) => {
+//         console.log(err);
+//       });
+//   } else {
+//     await Blog.find()
+//       .then((result) => {
+//         res.json(result);
+//       })
+//       .catch((err) => {
+//         console.log(err);
+//       });
+//   }
+//};
 
 const getSpecficBlog = (req, res) => {
   Blog.findById(req.params.id)
@@ -52,15 +51,13 @@ const addBlog = (req, res) => {
 };
 
 const updateBlog = (req, res) => {
-  const updateBlog = (req, res) => {
-    Blog.updateOne({ _id: req.params.id })
-      .then((result) => {
-        res.json("Blog Updated");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+  Blog.updateOne({ _id: req.params.id })
+    .then((result) => {
+      res.json("Blog Updated");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
 const deleteBlog = (req, res) => {
@@ -74,7 +71,6 @@ const deleteBlog = (req, res) => {
 };
 
 module.exports = {
-  getAllBlogs,
   getSpecficBlog,
   addBlog,
   updateBlog,
