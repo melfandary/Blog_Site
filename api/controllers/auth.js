@@ -11,7 +11,6 @@ const register = async (req, res) => {
     return res.status(403).json("E-mail already in use!"); // this allows async but no err handle
   }
 
-
   const user = new User({
     email: req.body.email,
     username: req.body.username,
@@ -30,6 +29,7 @@ const register = async (req, res) => {
     });
 };
 
+
 const login = (req, res) => {
   const name = req.body.username;
   const pass = req.body.password;
@@ -44,31 +44,29 @@ const login = (req, res) => {
         return res.status(400).json("Incorrect username or password!");
       }
 
-      const token = jwt.sign({ id: user._id }, "jwtKey");
+      const token = jwt.sign({ id: user._id }, "jwtKey", { expiresIn: "1h" });
       res
-        .cookie("access_token", token, { httpOnly: true, })
+        .cookie("access_token", token, { httpOnly: true })
         .status(200)
-        .send(user);
-     
+        .json(user);
     }
   });
 };
 
 const logout = (req, res) => {
-  // cookie doesnt reset cuz its not json , if json login fails
+
   res
     .clearCookie("access_token", {
-     //  exp: Math.floor(Date.now() / 1000) + (60 * 60),
       sameSite: "none",
-      
+
       //secure: true,
     })
-    .status(200)
+    // .status(200)
     .json("Logged out");
 
-//alternative logout
+  //alternative logout
   // req.cookie('access_token','',{maxAge:1});
   // res.redirect('/');
 };
 
-module.exports = { register, login, logout};
+module.exports = { register, login, logout };
